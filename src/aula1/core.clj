@@ -5,29 +5,29 @@
 (defn sucessor
   "Retorna o sucessor de um número"
   [n]
-  'implementar)
+  (inc n))
 
 (defn antecessor
   "Retorna o antecessor de um número"
   [n]
-  'implementar)
+  (dec n))
 
 (defn soma
   "Soma dois números"
   [a
    b]
-  'implementar)
+  (+ a b))
 
 (defn sub
   "Subtrai dois números"
   [a
    b]
-  'implementar)
+  (- a b))
 
 (defn mult
   "Multiplica dois números"
   [a b]
-  'implementar)
+  (* a b))
 
 (defn div
   "Divide dois números"
@@ -38,37 +38,51 @@
 (defn maior?
   "Retorna true se for maior de idade, false caso contrário"
   [idade]
-  'implementar)
+  (if (>= idade 18)
+  true
+  false))
 
 (defn menor?
   "Retorna true se for menor de idade, false caso contrário"
   [idade]
-  'implementar)
+  (if(< idade 18)
+  true
+  false ))
 
 (defn baixo?
   "Retorna true se a altura for menor que 1.6 metros, false caso contrário"
   [altura]
-  'implementar)
+  (if (< altura 1.6)
+  true
+  false))
 
 (defn alto?
   "Retorna true se a altura for maior que 1.8 metros, false caso contrário"
   [altura]
-  'implementar)
+  (if (> altura 1.8)
+  true
+  false))
 
 (defn medio?
   "Retorna true se a idade estiver entre 1.6 e 1.8 metros, false caso contrário"
   [altura]
-  'implementar)
+  (if (and (>= altura 1.6) (<= altura 1.8))
+  true
+  false))
 
 (defn par?
   "Retorna true se o número for par, false caso contrário."
   [n]
-  'implementar)
+  (if (= (mod n 2 ) 0)
+  true
+  false))
 
 (defn impar?
   "Retorna true se o número for ímpar, true caso contrário."
   [n]
-  'implementar)
+  (if (not= (mod n 2 ) 0)
+  true
+  false))
 
 
 ;;; Definindo uma variável
@@ -81,21 +95,40 @@
 (defn area-circ
   "Recebe um raio e calcula a área da circunferência."
   [raio]
-  'implementar)
+  (* PI (* raio raio)))
+
+  (defn absolute
+  "Recebe um numero e transforma ele em absoluto"
+  [n]
+  (if (< n 0)
+  (* n -1)
+  n))
 
 (defn eh-triangulo?
   "Recebe 3 lados e verifica se formam um triângulo de acordo com as regras do slide 34."
   [a b c]
-  'implementar)
+  (if ( and (< (absolute (- b c)) a (+ b c))
+          (< (absolute (- a c)) c (+ a c))
+          (< (absolute (- a b)) c (+ a b)))
+    true
+    false))
 
 (defn novo-salario
   "Recebe um salário e calcula o ajuste baseado nas regras do slide 35"
   [salario-antigo]
-  'implementar)
+  (if (<= salario-antigo 280.0)
+    (+ salario-antigo (* (/ salario-antigo 100) 20))
+    (if (and (> salario-antigo 280.0) (<= salario-antigo 700.0))
+      (+ salario-antigo (* (/ salario-antigo 100) 15))
+      (if (and (> salario-antigo 700.0) (<= salario-antigo 1500.0))
+        (+ salario-antigo (* (/ salario-antigo 100) 10))
+        (if (and (> salario-antigo 1500.0) (<= salario-antigo 3000.0))
+          (+ salario-antigo (* (/ salario-antigo 100) 5))
+          salario-antigo)))))
 
 (defn calcula-media
   [n1 n2 n3]
-  'implementar)
+  (/ (+ n1 n2 n3) 3))
 
 ;;; Funções Recursivas
 ;;; São aquelas que, dentro do seu corpo, realizam uma chamada a si próprias.
@@ -103,12 +136,16 @@
 (defn fatorial
   "Calcula o fatorial de n"
   [n]
-  'implementar)
+  (if (= n 1)
+  1
+  (* n (fatorial (dec n)))))
 
 (defn fatorial-tco
   "Calcula o fatorial de n com tail call"
-  [n]
-  'implementar)
+  [n acc]
+  (if (= n 1)
+  acc
+  (recur (dec n) (* acc n))))
 
 
 
@@ -119,25 +156,35 @@
 
 
 
-(defn fib-tco [n]
-  'implementar)
+(defn fib-tco [n a b]
+  (if (= n 0)
+    a
+    (if (= n 1)
+      b
+      (recur (dec n) b (+ a b)))))
 
 
 (defn pow
   [x n]
-  'implementar)
+  (if ( = n 1)
+  x
+  (* x (pow x (dec n)))))
 
 (defn pow-tco
-  [x n]
-  'implementar)
+  [x n acc]
+  (if (= n 0)
+  acc
+  (recur x (dec n) (* acc x))))
 
 
-(defn le-do-teclado!
+(defn le-do-teclado
   [inicio
    fim]
   (do
     (prn "Digite um número entre" inicio "e" fim)
     (read-line)))
+
+
 
 
 ;;; Como gerenciar o estado de um jogo ?
@@ -149,15 +196,30 @@
   [inicio
    fim
    segredo
-   vidas]
-  'implementar)
+   vidas] 
+  (if ( = vidas 0)
+      "Suas vidas esgotaram, voce perdeu"
+      (do
+      (def teclado (Integer/parseInt(le-do-teclado inicio fim)))
+      (if ( = vidas 0)
+      "Suas vidas esgotaram, voce perdeu"
+      (if (or (<= teclado inicio) (>= teclado fim))
+        (do
+        (prn "entradas invalidas")
+        (recur inicio fim segredo vidas))
+        (if (> teclado segredo)
+          (recur inicio teclado segredo (dec vidas))
+          (if (< teclado segredo)
+            (recur teclado fim segredo (dec vidas))
+            (if (= teclado segredo)
+               (str "Voce acertou!! O segredo e " (str segredo ))))))))))
 
 (defn inicia-jogo
   []
   (let [inicio 1
         fim 100
         segredo (inc (rand-int 100))
-        vidas 5]
+        vidas 10]
     (adivinhe-o-numero inicio fim segredo vidas)))
 
 
