@@ -1,6 +1,8 @@
 (ns aula1.core
   (:gen-class))
 
+
+
 ;;; colar aqui as funções
 (defn sucessor
   "Retorna o sucessor de um número"
@@ -59,7 +61,7 @@
 (defn alto?
   "Retorna true se a altura for maior que 1.8 metros, false caso contrário"
   [altura]
-  (if (> altura 1.8)
+  (if (>= altura 1.8)
   true
   false))
 
@@ -90,12 +92,16 @@
 
 (def PI 3.1415)
 
+(defn round
+  [precision d]
+  (let [factor (Math/pow 10 precision)]
+    (/ (Math/round (* d factor)) factor)))
 
 
 (defn area-circ
   "Recebe um raio e calcula a área da circunferência."
   [raio]
-  (* PI (* raio raio)))
+  ( round 2 (* PI (* raio raio))))
 
   (defn absolute
   "Recebe um numero e transforma ele em absoluto"
@@ -118,19 +124,19 @@
   [salario-antigo]
   (cond
   (<= salario-antigo 280.0)
-    (+ salario-antigo (* (/ salario-antigo 100) 20))
+    (+ salario-antigo (* (/ salario-antigo 100.0) 20))
   (and (> salario-antigo 280.0) (<= salario-antigo 700.0))
-      (+ salario-antigo (* (/ salario-antigo 100) 15))
+      (+ salario-antigo (* (/ salario-antigo 100.0) 15))
   (and (> salario-antigo 700.0) (<= salario-antigo 1500.0))
-        (+ salario-antigo (* (/ salario-antigo 100) 10))
+        (+ salario-antigo (* (/ salario-antigo 100.0) 10))
   (and (> salario-antigo 1500.0) (<= salario-antigo 3000.0))
-          (+ salario-antigo (* (/ salario-antigo 100) 5))
+          (+ salario-antigo (* (/ salario-antigo 100.0) 5))
   (> salario-antigo 3000.0)
-          (+ salario-antigo 0.0)))
+          (+ salario-antigo 0)))
 
 (defn calcula-media
   [n1 n2 n3]
-  (/ (+ n1 n2 n3) 3))
+  (/ (+ n1 n2 n3 0.0) 3))
 
 ;;; Funções Recursivas
 ;;; São aquelas que, dentro do seu corpo, realizam uma chamada a si próprias.
@@ -138,14 +144,14 @@
 (defn fatorial
   "Calcula o fatorial de n"
   [n]
-  (if (= n 1)
+  (if (<= n 1)
   1
   (* n (fatorial (dec n)))))
 
 (defn fatorial-tco
   "Calcula o fatorial de n com tail call"
   [n acc]
-  (if (= n 1)
+  (if (<= n 1)
   acc
   (recur (dec n) (* acc n))))
 
@@ -158,25 +164,35 @@
 
 
 
-(defn fib-tco [n a b]
+(defn fib-tco
+ ([n] (fib-tco n 0 1 ))
+ ([n a b]
   (if (= n 0)
     a
     (if (= n 1)
       b
-      (recur (dec n) b (+ a b)))))
+      (recur (dec n) b (+ a b))))))
 
 
 (defn pow
   [x n]
-  (if ( = n 1)
-  x
-  (* x (pow x (dec n)))))
+  (cond 
+  ( = n 1)
+    (* 1 x)
+  (= n 0)
+    (* 1 1)
+  (> n 1)
+    (* x (pow x (dec n)))))
 
 (defn pow-tco
   [x n acc]
-  (if (= n 0)
-  acc
-  (recur x (dec n) (* acc x))))
+  (cond 
+  (= n 1)
+    (*  x acc)
+  (= n 0)
+    (* 1 1)
+  (> n 1)
+    (recur x (dec n) (* acc x))))
 
 
 (defn le-do-teclado

@@ -20,7 +20,7 @@
     (is (= (soma 1 2) 3))
     (is (= (soma 1 0) 1))
     (is (= (soma 999 1) 1000))
-    (is (= (soma 1. 1.) 2))))
+    (is (= (soma 1. 1.) 2.0))))
 
 (deftest testa-sub
   (testing "Testa a função subtração"
@@ -75,8 +75,8 @@
 
 (deftest testa-area-circ
   (testing "Testa a função area-circ"
-    (is (= (area-circ 10) 31.15))
-    (is (= (area-circ 5.3) 16.64995))))
+    (is (= (area-circ 10) 314.15))
+    (is (= (area-circ 5.3) 88.24))))
 
 (deftest testa-triangulo
   (testing "Testa a função eh-triangulo?"
@@ -86,14 +86,14 @@
 
 (deftest testa-novo-salario
   (testing "Testa a função novo-salario"
-    (is (= (novo-salario 150) 180))
-    (is (= (novo-salario 280) 336))
+    (is (= (novo-salario 150) 180.0))
+    (is (= (novo-salario 280) 336.0))
     (is (= (novo-salario 281) 323.15))
-    (is (= (novo-salario 700) 805))
+    (is (= (novo-salario 700) 805.0))
     (is (= (novo-salario 701) 771.1))
-    (is (= (novo-salario 1500) 1650))
+    (is (= (novo-salario 1500) 1650.0))
     (is (= (novo-salario 1501) 1576.05))
-    (is (= (novo-salario 3000) 3150))
+    (is (= (novo-salario 3000) 3150.0))
     (is (= (novo-salario 3001) 3001))))
 
 
@@ -114,15 +114,15 @@
 (deftest testa-fatorial
   (testing "Testa as funções que calculam fatorial"
     (is (= (fatorial 5) 120))
-    (is (= (fatorial-tco 5) 120))
+    (is (= (fatorial-tco 5 1) 120))
     (is (= (fatorial 0) 1))
-    (is (= (fatorial-tco 0) 1))))
+    (is (= (fatorial-tco 0 1) 1))))
 
 (deftest testa-pow
   (testing "Testa a função de potenciação"
     (is (= (pow 2 3) 8))
     (is (= (pow 10 2) 100))
     (is (= (pow 1 0) 1))
-    (is (= (pow-tco 2 3) 8))
-    (is (= (pow-tco 10 3) 1000))
+    (is (= (pow-tco 2 3 1) 8))
+    (is (= (pow-tco 10 3 1) 1000))
     (is (= (pow 10 0) 1))))
