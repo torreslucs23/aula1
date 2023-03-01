@@ -116,15 +116,17 @@
 (defn novo-salario
   "Recebe um salário e calcula o ajuste baseado nas regras do slide 35"
   [salario-antigo]
-  (if (<= salario-antigo 280.0)
+  (cond
+  (<= salario-antigo 280.0)
     (+ salario-antigo (* (/ salario-antigo 100) 20))
-    (if (and (> salario-antigo 280.0) (<= salario-antigo 700.0))
+  (and (> salario-antigo 280.0) (<= salario-antigo 700.0))
       (+ salario-antigo (* (/ salario-antigo 100) 15))
-      (if (and (> salario-antigo 700.0) (<= salario-antigo 1500.0))
+  (and (> salario-antigo 700.0) (<= salario-antigo 1500.0))
         (+ salario-antigo (* (/ salario-antigo 100) 10))
-        (if (and (> salario-antigo 1500.0) (<= salario-antigo 3000.0))
+  (and (> salario-antigo 1500.0) (<= salario-antigo 3000.0))
           (+ salario-antigo (* (/ salario-antigo 100) 5))
-          salario-antigo)))))
+  (> salario-antigo 3000.0)
+          (+ salario-antigo 0.0)))
 
 (defn calcula-media
   [n1 n2 n3]
@@ -193,26 +195,24 @@
 ;;; o jogador tem N tentativas para acertar
 ;;; A cada rodada o jogo diminui o intervalo baseado no chute do jogador
 (defn adivinhe-o-numero
-  [inicio
-   fim
-   segredo
-   vidas] 
-  (if ( = vidas 0)
-      "Suas vidas esgotaram, voce perdeu"
-      (do
-      (def teclado (Integer/parseInt(le-do-teclado inicio fim)))
-      (if ( = vidas 0)
-      "Suas vidas esgotaram, voce perdeu"
-      (if (or (<= teclado inicio) (>= teclado fim))
-        (do
-        (prn "entradas invalidas")
-        (recur inicio fim segredo vidas))
-        (if (> teclado segredo)
-          (recur inicio teclado segredo (dec vidas))
-          (if (< teclado segredo)
+  [inicio fim segredo vidas]
+  (if  (= vidas 0) 
+    "Suas vidas esgotaram, voce perdeu"
+    (do
+    (def teclado (Integer/parseInt (le-do-teclado inicio fim)))
+    (cond
+      (or (<= teclado inicio) (>= teclado fim))
+          (do
+            (prn "entradas invalidas")
+            (recur inicio fim segredo vidas))
+      (> teclado segredo)
+            (recur inicio teclado segredo (dec vidas))
+      (< teclado segredo)
             (recur teclado fim segredo (dec vidas))
-            (if (= teclado segredo)
-               (str "Voce acertou!! O segredo e " (str segredo ))))))))))
+      (= teclado segredo)
+            (str "Voce acertou!! O segredo e " (str segredo))))))
+
+
 
 (defn inicia-jogo
   []
