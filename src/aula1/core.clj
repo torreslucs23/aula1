@@ -232,7 +232,7 @@
 
 (defn inicia-jogo
   []
-  (let [inicio 1
+  (let [inicio 0
         fim 100
         segredo (inc (rand-int 100))
         vidas 10]
